@@ -95,6 +95,8 @@ class LightEvalConfig:
     parallelism: "ParallelismArgs"
     batch_size: int = 0
     generation: Optional[Union[GenerationArgs, Dict[str, GenerationArgs]]] = None
+    use_stochastok: bool = False
+    stochastok_prop: float = 0.0
 
 
 @dataclass

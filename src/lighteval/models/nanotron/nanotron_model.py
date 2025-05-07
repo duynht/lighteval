@@ -57,6 +57,7 @@ from lighteval.tasks.requests import (
 from lighteval.utils.imports import is_nanotron_available
 from lighteval.utils.parallelism import find_executable_batch_size
 from lighteval.utils.utils import as_list
+from stochastok import StochasTokWrapper
 
 
 logger = logging.getLogger(__name__)
@@ -143,6 +144,12 @@ class NanotronLightevalModel(LightevalModel):
             pretrained=tokenizer.tokenizer_name_or_path,
             trust_remote_code=trust_remote_code,
         )
+        if lighteval_config.use_stochastok:
+            self._tokenizer = StochasTokWrapper(
+                tokenizer=self._tokenizer,
+                stochastok_prop=lighteval_config.stochastok_prop,
+                as_transformers_tokenizer=True,
+            )
         self._tokenizer.model_max_length = self.max_length
 
         model_config_cls = self.model_config.__class__.__name__
